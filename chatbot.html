@@ -1,356 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Site Chatbot</title>
-  <style>
-    :root {
-      --bg: #0b1020;
-      --panel: #121936;
-      --muted: #8390b3;
-      --text: #e6ebff;
-      --brand: #7c9cff;
-      --brand-2: #52e0ff;
-      --accent: #1f2a59;
-      --ok: #18c37d;
-      --warn: #ffcc66;
-      --error: #ff6b6b;
-      --radius: 18px;
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      background: radial-gradient(1200px 800px at 10% -10%, #13214e 0%, transparent 70%),
-                  radial-gradient(900px 600px at 110% 10%, #0f1a40 0%, transparent 60%),
-                  var(--bg);
-      color: var(--text);
-      font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-    }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 24px; }
-    header { display:flex; align-items:center; gap:12px; padding: 6px 4px 18px; }
-    header .logo { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); display:grid; place-items:center; font-weight: 800; color: #0a0f24; }
-    header h1 { font-size: 20px; margin: 0; letter-spacing: .3px; }
-    header p { margin: 0; color: var(--muted); font-size: 13px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skyway Bot - Chat Assistant</title>
+    <style>
+        /* --- 1. CSS STYLING --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6; /* Light background for the chat container */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Important if this is embedded in an iframe */
+        }
 
-    .chat {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(124,156,255,0.15);
-      border-radius: var(--radius);
-      overflow: hidden;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      height: calc(100vh - 170px);
-      min-height: 520px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
-    }
+        #chatbot-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            max-height: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            overflow: hidden;
+        }
 
-    .msgs { padding: 20px; overflow: auto; scroll-behavior: smooth; }
-    .msg { display:flex; gap:12px; margin: 8px 0; }
-    .msg .bubble {
-      padding: 12px 14px; border-radius: 12px 12px 12px 4px; background: var(--panel); border: 1px solid rgba(124,156,255,0.15);
-      max-width: 78ch; white-space: pre-wrap; word-wrap: break-word;
-    }
-    .msg.user .bubble { background: #0f1533; border-color: rgba(124,156,255,0.2); }
-    .msg.assistant .bubble { border-radius: 12px 12px 4px 12px; }
-    .msg .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        #chat-header {
+            background-color: #007bff; /* Primary Blue for Skyway */
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+        }
 
-    .input {
-      border-top: 1px solid rgba(124,156,255,0.15);
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
-      padding: 12px; display:flex; gap:10px; align-items:center;
-    }
-    textarea {
-      flex:1; resize: none; min-height: 44px; max-height: 160px; border: 1px solid rgba(124,156,255,0.2);
-      outline: none; border-radius: 12px; padding: 12px 12px; background: #0d142e; color: var(--text);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
-    }
-    button {
-      background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #0a0f24; border: none; padding: 0 16px;
-      height: 44px; border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(124,156,255,.3);
-    }
-    button[disabled] { opacity: .5; cursor: not-allowed; box-shadow: none; }
+        #chat-box {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #e5ddd5; /* WhatsApp/Messaging background color */
+        }
+        
+        /* Message bubble base styles */
+        .message {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
 
-    .sources { display:flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .chip { font-size: 12px; color: var(--brand-2); background: rgba(82,224,255,.08); border:1px solid rgba(82,224,255,.25); padding: 6px 8px; border-radius: 999px; text-decoration: none; }
+        /* User messages */
+        .user-message {
+            background-color: #dcf8c6; /* Light Green */
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
 
-    .tip { color: var(--muted); font-size: 13px; margin: 8px 2px 0; }
-    .small { font-size: 12px; color: var(--muted); }
-  </style>
+        /* Bot messages */
+        .bot-message {
+            background-color: #fff; /* White */
+            align-self: flex-start;
+            border: 1px solid #ddd;
+            border-bottom-left-radius: 2px;
+        }
+
+        #input-area {
+            display: flex;
+            border-top: 1px solid #eee;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        #send-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo">S</div>
-      <div>
-        <h1>Website Chatbot</h1>
-        <p>Answers based only on your site's JSON content. Works on GitHub Pages.</p>
-      </div>
-    </header>
 
-    <section class="chat" id="chat">
-      <div class="msgs" id="msgs"></div>
-      <div class="input">
-        <textarea id="q" placeholder="Ask about tours, services, prices, policies…" rows="1"></textarea>
-        <button id="ask">Ask</button>
-      </div>
-    </section>
+<div id="chatbot-container">
+    <div id="chat-header">
+        Skyway Bot 🤖
+    </div>
+    <div id="chat-box">
+        </div>
+    <div id="input-area">
+        <input type="text" id="user-input" placeholder="Ask Skyway Bot a question..." />
+        <button id="send-button" onclick="sendMessage()">Send</button>
+    </div>
+</div>
 
-    <p class="tip">Save this file as <code>chatbot.html</code>. Place <code>site_pages.json</code> in your repo root (or same folder). If your site uses a subpath on GitHub Pages, the script will auto-detect; you can also force a path via <code>?pages=/your/path/site_pages.json</code>.</p>
-  </div>
+<script>
+    // --- 2. JAVASCRIPT LOGIC ---
 
-  <script>
-    // ---------- CONFIG & Path Resolver (works for chatbot.html anywhere) ----------
-    // You can override the JSON path via URL, e.g. chatbot.html?pages=/site_pages.json
-    const urlOverride = new URLSearchParams(location.search).get('pages');
-
-    function candidateJsonPaths() {
-      if (urlOverride) return [urlOverride];
-      const baseDir = location.pathname.replace(/[^/]*$/, ''); // strip file name
-      const segs = baseDir.split('/').filter(Boolean);
-      const guesses = new Set();
-      // alongside the file, e.g. /repo/sub/chatbot.html -> /repo/sub/site_pages.json
-      guesses.add(baseDir + 'site_pages.json');
-      // project pages root: /<user>/<repo>/site_pages.json
-      if (segs.length >= 2) guesses.add('/' + segs[0] + '/' + segs[1] + '/site_pages.json');
-      // org/user root: /site_pages.json
-      guesses.add('/site_pages.json');
-      // relative fallback
-      guesses.add('./site_pages.json');
-      return [...guesses];
-    }
-
-    // ---------- Lightweight BM25 Retrieval (no backend, no model) ---------- (no backend, no model) ----------
-    // Works entirely in-browser against your JSON; suitable for static hosting.
-
-    const state = {
-      pages: [],           // [{url, title, content}]
-      docs: [],            // tokenized docs
-      df: new Map(),       // term -> doc freq
-      avgLen: 0,
-      k1: 1.5, b: 0.75,
-      stop: new Set(),
+    const knowledgeBase = {
+        "hello": "Hello! I am Skyway Bot, your assistant for this GitHub page. How can I assist you?",
+        "hi": "Hey there! Skyway Bot here. What can I do for you?",
+        "how are you": "I'm a computer program, so I'm always running perfectly! How about you?",
+        "what is your name": "I am Skyway Bot, designed to answer questions about this project.",
+        "project": "This project is focused on creating a fully client-side chatbot for static GitHub Pages. It uses plain HTML, CSS, and JavaScript.",
+        "github": "You can find the source code and main project details in the repository linked on the main index.html page.",
+        "contact": "For contact, please refer to the owner's details on the main project page or leave an issue in the GitHub repository.",
+        "bye": "Goodbye! Feel free to come back if you have more questions.",
+        "thank you": "You're very welcome! Let me know if anything else comes up."
     };
 
-    // Basic stopwords (English). You can augment by adding stopwords.txt in root.
-    const DEFAULT_STOPS = `a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,her,here,hers,herself,him,himself,his,how,i,if,in,into,is,it,its,itself,just,me,more,most,my,myself,no,nor,not,now,of,off,on,once,only,or,other,our,ours,ourselves,out,over,own,same,she,should,so,some,such,than,that,the,their,theirs,them,themselves,then,there,these,they,this,those,through,to,too,under,until,up,very,was,we,were,what,when,where,which,while,who,whom,why,with,you,your,yours,yourself,yourselves`;
+    const chatBox = document.getElementById('chat-box');
+    const inputField = document.getElementById('user-input');
 
-    function tokenize(s) {
-      return s
-        .toLowerCase()
-        .replace(/[^\p{L}\p{N}]+/gu, ' ')
-        .split(/\s+/)
-        .filter(Boolean)
-        .filter(t => !state.stop.has(t));
-    }
+    function getBotResponse(userInput) {
+        const message = userInput.toLowerCase().trim();
 
-    function buildIndex(pages) {
-      state.pages = pages;
-      state.docs = [];
-      state.df = new Map();
-      let totalLen = 0;
-
-      for (let i = 0; i < pages.length; i++) {
-        const text = `${pages[i].title || ''} ${pages[i].content || ''}`;
-        const toks = tokenize(text);
-        totalLen += toks.length;
-        state.docs.push(toks);
-
-        const seen = new Set();
-        for (const t of toks) {
-          if (!seen.has(t)) {
-            seen.add(t);
-            state.df.set(t, (state.df.get(t) || 0) + 1);
-          }
+        // Check for keywords in the knowledge base
+        for (const key in knowledgeBase) {
+            // Simple check: if the user's message includes the key phrase
+            if (message.includes(key)) {
+                return knowledgeBase[key];
+            }
         }
-      }
-      state.avgLen = Math.max(1, totalLen / Math.max(1, pages.length));
+
+        // Default Fallback Response
+        return "I'm sorry, I don't have information on that. Try asking about 'project', 'github', or just say 'hello'.";
     }
 
-    function idf(term, N) {
-      const df = state.df.get(term) || 0;
-      // BM25 idf with smoothing
-      return Math.log(1 + (N - df + 0.5) / (df + 0.5));
+    function displayMessage(message, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message ' + type;
+        messageDiv.innerText = message;
+        chatBox.appendChild(messageDiv);
+        
+        // Auto-scroll to the latest message
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function bm25Score(queryTokens, docIdx) {
-      const doc = state.docs[docIdx];
-      if (!doc || !doc.length) return 0;
-      const N = state.docs.length;
-      const len = doc.length;
+    function sendMessage() {
+        const userText = inputField.value;
 
-      // term frequencies
-      const tf = new Map();
-      for (const t of doc) tf.set(t, (tf.get(t) || 0) + 1);
+        if (userText === '') return; // Ignore empty messages
 
-      let score = 0;
-      for (const q of queryTokens) {
-        const f = tf.get(q) || 0;
-        if (!f) continue;
-        const w = idf(q, N);
-        const denom = f + state.k1 * (1 - state.b + state.b * (len / state.avgLen));
-        score += w * (f * (state.k1 + 1)) / denom;
-      }
-      return score;
+        displayMessage(userText, 'user-message'); // Display user message
+
+        // Clear input field immediately
+        inputField.value = '';
+        
+        // Wait a moment for the bot to "think" (UX improvement)
+        setTimeout(() => {
+            const botResponse = getBotResponse(userText);
+            displayMessage(botResponse, 'bot-message');
+        }, 500); 
     }
 
-    function bestMatches(query, k = 5) {
-      const qTokens = tokenize(query);
-      const scores = state.docs.map((_, i) => bm25Score(qTokens, i));
-      const idx = scores.map((s, i) => [s, i]).sort((a,b)=> b[0]-a[0]).slice(0, k);
-      return idx.filter(([s]) => s > 0).map(([s,i]) => ({ score: s, i, page: state.pages[i] }));
-    }
-
-    function snippet(text, q, maxLen = 260) {
-      if (!text) return '';
-      const terms = tokenize(q);
-      const sentences = text.split(/(?<=[.!?])\s+/);
-      let best = sentences[0] || text;
-      let bestHits = -1;
-      for (const s of sentences) {
-        const stoks = tokenize(s);
-        const hits = terms.reduce((acc,t) => acc + (stoks.includes(t) ? 1 : 0), 0);
-        if (hits > bestHits) { bestHits = hits; best = s; }
-      }
-      if (best.length > maxLen) best = best.slice(0, maxLen - 1) + '…';
-      // basic highlight
-      let highlighted = best;
-      for (const t of [...new Set(terms)]) {
-        if (!t) continue;
-        const re = new RegExp(`(${t.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-        highlighted = highlighted.replace(re, '[$1]');
-      }
-      return highlighted.replace(/\[(.*?)\]/g, '<mark>$1</mark>');
-    }
-
-    async function loadStopwords() {
-      try {
-        const res = await fetch('./stopwords.txt');
-        if (!res.ok) throw new Error('no custom stopwords');
-        const txt = (await res.text()).split(/\s+/).filter(Boolean);
-        return new Set([...new Set(txt.map(t=>t.toLowerCase()))]);
-      } catch {
-        return new Set(DEFAULT_STOPS.split(',').map(s=>s.trim()));
-      }
-    }
-
-    async function loadPages() {
-      const candidates = candidateJsonPaths();
-      let lastErr = null;
-      for (const p of candidates) {
-        try {
-          const res = await fetch(p, { cache: 'no-store' });
-          if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-          const data = await res.json();
-          const pages = Array.isArray(data) ? data : (data.pages || []);
-          const MAX_CHARS = 12000;
-          const norm = pages.map(p => ({
-            url: p.url || p.link || p.href || '#',
-            title: p.title || p.name || '',
-            content: (p.content || p.text || '').slice(0, MAX_CHARS)
-          })).filter(p => (p.content && p.content.length > 0));
-          window.__pages_json_path = p; // remember which path worked
-          return norm;
-        } catch (e) {
-          lastErr = e;
+    // Event Listener to send message on 'Enter' key press
+    inputField.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
         }
-      }
-      throw new Error('Could not load site_pages.json from any of: ' + candidates.join(', ') + '\nLast error: ' + (lastErr ? String(lastErr) : 'unknown'));
-    }
-
-    function addMessage(role, html, sources = []) {
-      const box = document.getElementById('msgs');
-      const row = document.createElement('div');
-      row.className = `msg ${role}`;
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble';
-      bubble.innerHTML = html;
-      row.appendChild(bubble);
-
-      if (sources.length) {
-        const srcWrap = document.createElement('div');
-        srcWrap.className = 'sources';
-        for (const s of sources) {
-          const a = document.createElement('a');
-          a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-          a.className = 'chip'; a.textContent = s.title || new URL(s.url, location.href).hostname;
-          srcWrap.appendChild(a);
-        }
-        row.appendChild(srcWrap);
-      }
-
-      box.appendChild(row);
-      box.scrollTop = box.scrollHeight;
-    }
-
-    function formatAnswer(query, hits) {
-      if (!hits.length) {
-        return {
-          html: `I couldn't find anything about “<b>${escapeHtml(query)}</b>” in the site content. Try rephrasing or using fewer words.`,
-          sources: []
-        };
-      }
-      const pieces = hits.map(h => {
-        const s = snippet(h.page.content, query);
-        const t = escapeHtml(h.page.title || h.page.url);
-        return `<div><b>${t}</b><br><span class="small">${(new URL(h.page.url, location.href)).href}</span><br>${s}</div>`;
-      });
-
-      const html = pieces.join('\n\n');
-      const sources = hits.map(h => ({ url: h.page.url, title: h.page.title }));
-      return { html, sources };
-    }
-
-    function escapeHtml(s){
-      return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
-    }
-
-    async function answer(query) {
-      const hits = bestMatches(query, 5);
-      return formatAnswer(query, hits);
-    }
-
-    // ---------- Wire up UI ----------
-    const qEl = document.getElementById('q');
-    const askBtn = document.getElementById('ask');
-
-    async function init() {
-      addMessage('assistant', 'Loading site content…');
-      state.stop = await loadStopwords();
-      try {
-        const pages = await loadPages();
-        buildIndex(pages);
-        document.querySelector('#msgs .bubble').innerHTML = `Loaded <b>${pages.length}</b> pages. Ask me anything about the site!`;
-      } catch (e) {
-        document.querySelector('#msgs .bubble').innerHTML = `⚠️ <b>Failed to load pages.</b> Make sure <code>site_pages.json</code> is in the repo root.\n<br><span class="small">${escapeHtml(String(e))}</span>`;
-      }
-    }
-
-    function submit() {
-      const text = qEl.value.trim();
-      if (!text) return;
-      addMessage('user', escapeHtml(text));
-      qEl.value = '';
-      askBtn.disabled = true;
-      answer(text).then(({html, sources}) => {
-        addMessage('assistant', html, sources);
-      }).catch(err => {
-        addMessage('assistant', 'Error: ' + escapeHtml(String(err)));
-      }).finally(() => {
-        askBtn.disabled = false; qEl.focus();
-      });
-    }
-
-    askBtn.addEventListener('click', submit);
-    qEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); }
-      // autosize
-      setTimeout(() => { qEl.style.height = 'auto'; qEl.style.height = Math.min(qEl.scrollHeight, 160) + 'px'; }, 0);
     });
 
-    window.addEventListener('load', init);
-  </script>
+    // Initial welcome message when the page loads
+    window.onload = () => {
+        displayMessage("Welcome! I am Skyway Bot. I can answer simple questions about this GitHub project. Try typing 'project' or 'hello'.", 'bot-message');
+    }
+</script>
+
 </body>
 </html>
