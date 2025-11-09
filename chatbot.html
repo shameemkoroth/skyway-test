@@ -1,198 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyway Bot - Chat Assistant</title>
-    <style>
-        /* --- 1. CSS STYLING --- */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7f6; /* Light background for the chat container */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box; /* Important if this is embedded in an iframe */
-        }
-
-        #chatbot-container {
-            width: 100%;
-            max-width: 400px;
-            height: 100%;
-            max-height: 500px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            background-color: #fff;
-            overflow: hidden;
-        }
-
-        #chat-header {
-            background-color: #007bff; /* Primary Blue for Skyway */
-            color: white;
-            padding: 15px;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        #chat-box {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background-color: #e5ddd5; /* WhatsApp/Messaging background color */
-        }
+<iframe 
+    src="../chatbot.html" 
+    id="skyway-chatbot-frame" 
+    width="80px"  
+    height="80px" 
+    frameborder="0" 
+    title="Skyway Bot Chat Assistant"
+    scrolling="no" 
+    style="
+        /* CSS to position the widget */
+        position: fixed; 
+        bottom: 20px; 
+        right: 20px; 
+        z-index: 1000;
         
-        /* Message bubble base styles */
-        .message {
-            max-width: 80%;
-            padding: 8px 12px;
-            border-radius: 15px;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
-
-        /* User messages */
-        .user-message {
-            background-color: #dcf8c6; /* Light Green */
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-
-        /* Bot messages */
-        .bot-message {
-            background-color: #fff; /* White */
-            align-self: flex-start;
-            border: 1px solid #ddd;
-            border-bottom-left-radius: 2px;
-        }
-
-        #input-area {
-            display: flex;
-            border-top: 1px solid #eee;
-            background-color: #f0f0f0;
-            padding: 10px;
-        }
-
-        #user-input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            margin-right: 10px;
-            font-size: 1em;
-            outline: none;
-        }
-
-        #send-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-
-        #send-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-
-<div id="chatbot-container">
-    <div id="chat-header">
-        Skyway Bot 🤖
-    </div>
-    <div id="chat-box">
-        </div>
-    <div id="input-area">
-        <input type="text" id="user-input" placeholder="Ask Skyway Bot a question..." />
-        <button id="send-button" onclick="sendMessage()">Send</button>
-    </div>
-</div>
+        /* Initial styling for the icon */
+        border: none;
+        border-radius: 50%; 
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out; 
+    "
+>
+</iframe>
 
 <script>
-    // --- 2. JAVASCRIPT LOGIC ---
+    const iframe = document.getElementById('skyway-chatbot-frame');
+    let isChatExpanded = false;
 
-    const knowledgeBase = {
-        "hello": "Hello! I am Skyway Bot, your assistant for this GitHub page. How can I assist you?",
-        "hi": "Hey there! Skyway Bot here. What can I do for you?",
-        "how are you": "I'm a computer program, so I'm always running perfectly! How about you?",
-        "what is your name": "I am Skyway Bot, designed to answer questions about this project.",
-        "project": "This project is focused on creating a fully client-side chatbot for static GitHub Pages. It uses plain HTML, CSS, and JavaScript.",
-        "github": "You can find the source code and main project details in the repository linked on the main index.html page.",
-        "contact": "For contact, please refer to the owner's details on the main project page or leave an issue in the GitHub repository.",
-        "bye": "Goodbye! Feel free to come back if you have more questions.",
-        "thank you": "You're very welcome! Let me know if anything else comes up."
-    };
-
-    const chatBox = document.getElementById('chat-box');
-    const inputField = document.getElementById('user-input');
-
-    function getBotResponse(userInput) {
-        const message = userInput.toLowerCase().trim();
-
-        // Check for keywords in the knowledge base
-        for (const key in knowledgeBase) {
-            // Simple check: if the user's message includes the key phrase
-            if (message.includes(key)) {
-                return knowledgeBase[key];
-            }
-        }
-
-        // Default Fallback Response
-        return "I'm sorry, I don't have information on that. Try asking about 'project', 'github', or just say 'hello'.";
-    }
-
-    function displayMessage(message, type) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message ' + type;
-        messageDiv.innerText = message;
-        chatBox.appendChild(messageDiv);
+    // Function to expand the chat
+    function expandChat() {
+        if (isChatExpanded) return;
+        iframe.style.width = '420px';
+        iframe.style.height = '500px';
+        iframe.style.borderRadius = '10px';
+        isChatExpanded = true;
         
-        // Auto-scroll to the latest message
-        chatBox.scrollTop = chatBox.scrollHeight;
+        // Tell the iframe to show the chat and hide the icon
+        iframe.contentWindow.postMessage('showChat', '*');
     }
 
-    function sendMessage() {
-        const userText = inputField.value;
-
-        if (userText === '') return; // Ignore empty messages
-
-        displayMessage(userText, 'user-message'); // Display user message
-
-        // Clear input field immediately
-        inputField.value = '';
+    // Function to collapse the chat
+    function collapseChat() {
+        if (!isChatExpanded) return;
+        iframe.style.width = '80px';
+        iframe.style.height = '80px';
+        iframe.style.borderRadius = '50%';
+        isChatExpanded = false;
         
-        // Wait a moment for the bot to "think" (UX improvement)
-        setTimeout(() => {
-            const botResponse = getBotResponse(userText);
-            displayMessage(botResponse, 'bot-message');
-        }, 500); 
+        // Tell the iframe to show the icon and hide the chat
+        iframe.contentWindow.postMessage('showIcon', '*');
     }
 
-    // Event Listener to send message on 'Enter' key press
-    inputField.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            sendMessage();
+    // 1. Initial click on the small iframe (the icon)
+    iframe.onclick = expandChat;
+
+    // 2. Listen for messages from the iframe (e.g., when the user clicks the 'X' button inside the chat)
+    window.addEventListener('message', function(event) {
+        if (event.data === 'expandChat') {
+            expandChat();
+        } else if (event.data === 'collapseChat') {
+            collapseChat();
         }
     });
 
-    // Initial welcome message when the page loads
-    window.onload = () => {
-        displayMessage("Welcome! I am Skyway Bot. I can answer simple questions about this GitHub project. Try typing 'project' or 'hello'.", 'bot-message');
-    }
+    // Ensure the chat starts in the collapsed state (showIcon on load)
+    window.onload = collapseChat;
 </script>
-
-</body>
-</html>
