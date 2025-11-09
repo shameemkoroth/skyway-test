@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<!-- Homepage -->
+<url>
+  <loc>http://skywaytourandtravel.com/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1</priority>
+</url>
+
+<!-- Visa Page -->
+<url>
+  <loc>http://skywaytourandtravel.com/visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<!-- Locations Page -->
+<url>
+  <loc>http://skywaytourandtravel.com/locations</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<!-- About Page -->
+<url>
+  <loc>http://skywaytourandtravel.com/about</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<!-- Contact Page -->
+<url>
+  <loc>http://skywaytourandtravel.com/contact</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<!-- Visa Details Page -->
+<url>
+  <loc>http://skywaytourandtravel.com/visa/azerbaijan-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/schengen-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/malaysia-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/egypt-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/cambodia-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/vietnam-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/uzbekistan-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/morroco-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/indonesia-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/tanzania-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/angola-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/jordan-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/kenya-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/kyrgyzstan-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/tajikistan-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/turkey-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/armenia-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>http://skywaytourandtravel.com/visa/russia-visa</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<!-- Locations Details Page -->
+<url>
+  <loc>https://skywaytourandtravel.com/locations/kashmir</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://skywaytourandtravel.com/locations/istanbul</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://skywaytourandtravel.com/locations/paris</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://skywaytourandtravel.com/locations/bali</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://skywaytourandtravel.com/locations/dubai</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://skywaytourandtravel.com/locations/geneva</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://skywaytourandtravel.com/locations/andaman</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://skywaytourandtravel.com/locations/rome</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.8</priority>
+</url>
+
+
+</urlset>
